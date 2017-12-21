@@ -8,13 +8,14 @@ exports.handleRequest = function (req, res) {
   console.log('Request with method: ' + req.method + ' and url: ' + req.url);
   if (req.method === 'GET') {
     if (req.url === '/') {  // initial
-      httpHelpers.serveAssets(res, '/index.html');   
+      httpHelpers.serveAssets(res, '/index.html', null, archive.paths.siteAssets);   
     } else if (req.url === '/styles.css') {
-      httpHelpers.serveAssets(res, req.url);
+      httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
     } else if (req.url === '/loading.html') {
-      httpHelpers.serveAssets(res, req.url);   
+      httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
     } else {
       // we should GET from archived
+      httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites);
     }
   } else {  // POST METHOD
     var requestedUrl = '';
@@ -32,7 +33,7 @@ exports.handleRequest = function (req, res) {
             if (boolean) {
               // get actual html from archives
             } else {
-              httpHelpers.serveAssets(res, '/loading.html');
+              httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }
           });
         } else {
@@ -42,7 +43,7 @@ exports.handleRequest = function (req, res) {
               res.end();
             } else {
               console.log('appended ' + requestedUrl);
-              httpHelpers.serveAssets(res, '/loading.html');
+              httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }
           });
         }

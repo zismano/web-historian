@@ -26,7 +26,6 @@ exports.serveAssets = function(res, asset, callback, path) {
       res.writeHead(404, exports.headers);
       res.end('404 Not found');
     } else {
-      console.log('success ' + data);
       if (asset === '/loading.html') {
         res.writeHead(302, exports.headers);  
       } else {

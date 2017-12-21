@@ -11,8 +11,6 @@ exports.handleRequest = function (req, res) {
       httpHelpers.serveAssets(res, '/index.html', null, archive.paths.siteAssets);   
     } else if (req.url === '/styles.css') {
       httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
-    } else if (req.url === '/loading.html') {
-      httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
     } else {
       // we should GET from archived
       httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites);
@@ -28,10 +26,10 @@ exports.handleRequest = function (req, res) {
       console.log('url is: ' + requestedUrl);
 
       archive.isUrlInList(requestedUrl, (boolean) => {
-        if (boolean) { // url is on sites.txt
+        if (boolean) {  // url is on sites.txt
           archive.isUrlArchived(requestedUrl, (boolean) => {
             if (boolean) {
-              // get actual html from archives
+              httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites); // getting from archivedSites
             } else {
               httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }
@@ -42,7 +40,6 @@ exports.handleRequest = function (req, res) {
               res.writeHead(404, httpHelpers.headers);
               res.end();
             } else {
-              console.log('appended ' + requestedUrl);
               httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }
           });

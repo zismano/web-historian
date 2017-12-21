@@ -30,7 +30,6 @@ exports.readListOfUrls = function(callback) {
       throw err;
     } else {
       var links = data.toString().split('\n');
-      console.log(links);
       callback(links);
     }
   });
@@ -38,7 +37,6 @@ exports.readListOfUrls = function(callback) {
 
 exports.isUrlInList = function(url, callback) {
   exports.readListOfUrls(function(links) {
-    console.log('url: ' + url + ' is in list? ' + links.includes(url));
     callback(links.includes(url));
   });
 };
@@ -50,9 +48,11 @@ exports.addUrlToList = function(url, callback) {
 };
 
 exports.isUrlArchived = function(url, callback) {
-  // check if it is in the archivedSites path or sth
+
 };
 
 exports.downloadUrls = function(urls) {
-  //????????????????
+  // readListOfUrls => for each link we check if it is not archived  
+    // build an http GET request for each url in urls
+    // write the result in a new file within archives/sites/ with the name of the url (.html)
 };

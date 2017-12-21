@@ -8,6 +8,7 @@ exports.handleRequest = function (req, res) {
   console.log('Request with method: ' + req.method + ' and url: ' + req.url);
   if (req.method === 'GET') {
     if (req.url === '/') {  // initial
+      // archive.downloadUrls(); // check
       httpHelpers.serveAssets(res, '/index.html', null, archive.paths.siteAssets);   
     } else if (req.url === '/styles.css') {
       httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
@@ -29,7 +30,8 @@ exports.handleRequest = function (req, res) {
         if (boolean) {  // url is on sites.txt
           archive.isUrlArchived(requestedUrl, (boolean) => {
             if (boolean) {
-              httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites); // getting from archivedSites
+              console.log(requestedUrl);
+              httpHelpers.serveAssets(res, requestedUrl, null, archive.paths.archivedSites + '/'); // getting from archivedSites
             } else {
               httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }

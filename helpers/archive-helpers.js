@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var request = require('request');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -48,11 +49,23 @@ exports.addUrlToList = function(url, callback) {
 };
 
 exports.isUrlArchived = function(url, callback) {
-
+  callback(fs.existsSync(exports.paths.archivedSites + '/' + url));
 };
 
 exports.downloadUrls = function(urls) {
-  // readListOfUrls => for each link we check if it is not archived  
-    // build an http GET request for each url in urls
-    // write the result in a new file within archives/sites/ with the name of the url (.html)
+  for (let i = 0; i < urls.length; i++) {
+    request('http://' + urls[i], function (error, response, body) {
+      console.log('error:', error); // Print the error if one occurred
+      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      // console.log('body:', body); // Print the HTML for the Google homepage.
+      console.log('url is: ' + urls[i]);
+      fs.writeFile(exports.paths.archivedSites + '/' + urls[i], body, (err) => {
+        if (err) { 
+          console.log('Error while writing file');
+          throw err;
+        }
+        console.log('The file has been saved!');
+      });
+    });
+  }
 };

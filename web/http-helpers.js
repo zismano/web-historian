@@ -20,7 +20,7 @@ exports.serveAssets = function(res, asset, callback, path) {
     exports.headers['Content-Type'] = 'text/html';
   }
   
-  fs.readFile(path + asset, 'utf8', (err, data) => {
+  fs.readFile(path + asset, 'utf8', (err, data) => {  // read file and display its data
     if (err) {
       console.log('error, asset: ' + asset + ' does not exist.');
       res.writeHead(404, exports.headers);

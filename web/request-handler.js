@@ -13,7 +13,7 @@ exports.handleRequest = function (req, res) {
       httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);  // upload styles.css
     } else {
       // we should GET from archived
-      httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites);
+      // httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites);
     }
   } else {  // POST request
     var requestedUrl = '';
@@ -23,26 +23,26 @@ exports.handleRequest = function (req, res) {
     });
     
     req.on('end', () => {
-      requestedUrl = requestedUrl.split('=')[1];
+      requestedUrl = requestedUrl.split('=')[1];  // after user enters url, it looks like method=www.google.com
       console.log('url is: ' + requestedUrl);
 
       archive.isUrlInList(requestedUrl, (boolean) => {
         if (boolean) {  // url is on sites.txt
           archive.isUrlArchived(requestedUrl, (boolean) => {
-            if (boolean) {
+            if (boolean) {  // url is archived
               console.log(requestedUrl);
               httpHelpers.serveAssets(res, requestedUrl, null, archive.paths.archivedSites + '/'); // getting from archivedSites
-            } else {
+            } else { // url isn't archived, upload loading.html
               httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
             }
           });
-        } else {
-          archive.addUrlToList(requestedUrl, (err) => {
+        } else {  // url is not on sites.txt
+          archive.addUrlToList(requestedUrl, (err) => { // add url to sites.txt
             if (err) {
               res.writeHead(404, httpHelpers.headers);
               res.end();
             } else {
-              httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);
+              httpHelpers.serveAssets(res, '/loading.html', null, archive.paths.siteAssets);  // upload loading.html
             }
           });
         }

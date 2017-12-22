@@ -1,3 +1,2 @@
-append
-somehintg
-hello
+www.amazon.com
+www.google.com

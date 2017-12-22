@@ -8,18 +8,14 @@ var archive = require('../helpers/archive-helpers');
 
 var notArchived = [];
 
-var fetcher = () => {
-  archive.readListOfUrls((urls) => {
-    for (var i = 0; i < urls.length; i++) {
-      archive.isUrlArchived(urls[i], (boolean) => {
-        if (!boolean) {
-          notArchived.push(urls[i]);
-        }
-      });
-    }
-    console.log(notArchived);
-    archive.downloadUrls(notArchived);
-  });  
-};
-
-// fetcher();
+archive.readListOfUrls((urls) => {
+  for (var i = 0; i < urls.length; i++) {
+    archive.isUrlArchived(urls[i], (boolean) => {
+      if (!boolean) {
+        notArchived.push(urls[i]);
+      }
+    });
+  }
+  console.log(notArchived);
+  archive.downloadUrls(notArchived);
+});

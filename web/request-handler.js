@@ -1,23 +1,23 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
-// require more modules/folders here!
 var fs = require('fs');
 var httpHelpers = require('./http-helpers');
 
 exports.handleRequest = function (req, res) {
   console.log('Request with method: ' + req.method + ' and url: ' + req.url);
+  // GET request
   if (req.method === 'GET') {
     if (req.url === '/') {  // initial
-      // archive.downloadUrls(); // check
-      httpHelpers.serveAssets(res, '/index.html', null, archive.paths.siteAssets);   
+      httpHelpers.serveAssets(res, '/index.html', null, archive.paths.siteAssets);  // upload index.html   
     } else if (req.url === '/styles.css') {
-      httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);
+      httpHelpers.serveAssets(res, req.url, null, archive.paths.siteAssets);  // upload styles.css
     } else {
       // we should GET from archived
       httpHelpers.serveAssets(res, req.url, null, archive.paths.archivedSites);
     }
-  } else {  // POST METHOD
+  } else {  // POST request
     var requestedUrl = '';
+    // receive url from user
     req.on('data', (chunk) => {
       requestedUrl += chunk.toString();
     });
